@@ -1,0 +1,3 @@
+"""
+Core - Camada de domínio
+"""

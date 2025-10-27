@@ -1,0 +1,1 @@
+"""Testes do core domain"""

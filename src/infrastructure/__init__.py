@@ -1,0 +1,3 @@
+"""
+Infrastructure - Configuração e utilitários
+"""

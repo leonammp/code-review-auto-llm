@@ -1,0 +1,74 @@
+Analise o seguinte diff de Pull Request e retorne sua análise em formato JSON.
+
+<PR_INFO>
+Título: {pr_title}
+Branch: {source_branch} → {target_branch}
+Arquivos modificados: {changed_files}
+</PR_INFO>
+
+<CUSTOM_RULES>
+{custom_rules}
+</CUSTOM_RULES>
+
+<DIFF>
+{diff_content}
+</DIFF>
+
+COMO IDENTIFICAR NÚMEROS DE LINHA NO DIFF:
+O diff usa formato unificado. O cabeçalho @@ -X,Y +A,B @@ indica:
+- +A = número da PRIMEIRA linha mostrada no arquivo NOVO
+- A primeira linha após o @@ JÁ é a linha A
+- Linhas com "+" são ADIÇÕES (contar normalmente)
+- Linhas com "-" são REMOÇÕES (NÃO contam no arquivo novo)
+- Linhas SEM prefixo são CONTEXTO (contar normalmente)
+
+EXEMPLO:
+@@ -59,14 +59,13 @@
+         $dados['campo'] = $valor;      // linha 59 (contexto)
+     }}                                  // linha 60 (contexto)
+ 
++    if (intval($banco) == 246) {{       // linha 61 (adição)
++        $dados['numero'] = substr();   // linha 62 (adição)
++    }}                                  // linha 63 (adição)
++                                       // linha 64 (adição - linha vazia)
+     if(intval($banco) == 756) {{        // linha 65 (contexto)
+-        codigo_removido();             // (removida - NÃO conta)
+-        mais_codigo_removido();        // (removida - NÃO conta)
+     }}                                  // linha 66 (contexto)
+
+SEMPRE use o número da linha do arquivo NOVO (após aplicar as mudanças) nas suas issues.
+
+Retorne um JSON válido com esta estrutura EXATA:
+
+{{
+  "files": [
+    {{
+      "filepath": "caminho/do/arquivo.ext",
+      "critical_issues": [
+        {{"line": 62, "message": "Na linha 62 `fazer_algo()`: descrição do problema com trecho do código"}}
+      ],
+      "important_issues": [
+        {{"line": 64, "message": "Na linha 64 `mais_contexto`: descrição do problema"}}
+      ],
+      "suggestions": [
+        {{"line": 61, "message": "Na linha 61: sugestão de melhoria"}}
+      ]
+    }}
+  ]
+}}
+
+Critérios de severidade:
+- CRÍTICO: bugs evidentes, vulnerabilidades de segurança, race conditions, memory leaks
+- IMPORTANTE: problemas de performance, falta de tratamento de erro, lógica inconsistente
+- SUGESTÃO: melhorias de legibilidade, refatorações, boas práticas
+
+REGRAS OBRIGATÓRIAS:
+✅ Comente APENAS arquivos com issues EXTREMAMENTE relevantes (crítico/importante)
+✅ Dê exemplos das linhas de código que fazem parte da issue na mensagem
+✅ Inclua trechos do código problemático na descrição quando relevante
+✅ Cada mensagem deve ter NO MÁXIMO 2 frases
+❌ NÃO gere comentários para mudanças triviais ou arquivos SEM issues
+❌ NÃO retorne arquivos SEM issues no JSON
+❌ NÃO passe de 2 frases por mensagem de issue
+
+Retorne APENAS o JSON, sem texto adicional antes ou depois.

@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "code-review-bot"
+version = "1.0.0"
+description = "Bot automatizado de code review para pull requests"
+authors = ["Finnet"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+litellm = "^1.0.0"
+pydantic = "^2.0.0"
+pydantic-settings = "^2.0.0"
+urllib3 = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+types-requests = "^2.32.4.20250913"
+ruff = "^0.6.8"
+mypy = "^1.11.0"
+
+[tool.poetry.scripts]
+preview = "src.cli:preview"
+review = "src.cli:review"
+test = "src.cli:run_tests"
+test-cov = "src.cli:run_tests_cov"
+lint = "src.cli:run_lint"
+typecheck = "src.cli:run_typecheck"
+quality = "src.cli:run_quality_checks"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+    "*/ports/*",
+    "*/__init__.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "Protocol",
+    "class .*\\(Protocol\\):"
+]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+ignore = ["E203", "E266"]  # Compatibilidade com formatação existente
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+strict_optional = true
+warn_unused_configs = true
+warn_unused_ignores = true
+disallow_incomplete_defs = true
+show_error_codes = true
+namespace_packages = true
+
+[tool.pydantic-mypy]
+init_typed = true
+warn_required_dynamic_aliases = true
