@@ -49,12 +49,9 @@ code-review-bot/
 │   ├── system.txt
 │   └── user_review.txt
 │
-├── review_rules/                  # Regras por projeto/repo
-│   └── [Projeto]/
-│       └── [repositorio].md
-│
-├── docs/                          # Documentação
-└── examples/                      # Exemplos
+└── review_rules/                  # Regras por projeto/repo
+    └── [Projeto]/
+        └── [repositorio].md
 ```
 
 ### Princípios da Arquitetura
