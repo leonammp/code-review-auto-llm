@@ -93,7 +93,7 @@ cp .env.example .env
 
 ```env
 # Azure DevOps
-AZDO_ORG=finnetbrasil
+AZDO_ORG=sua_org_devops
 AZDO_PAT=seu-pat  # Apenas local
 
 # LLM
