@@ -66,7 +66,7 @@ code-review-bot/
 ### 1. Clonar o repositório
 
 ```bash
-git clone git@ssh.dev.azure.com:v3/finnetbrasil/ARCHITECTURE/code-review-bot
+git clone <link_do_repo>
 cd code-review-bot
 ```
 
