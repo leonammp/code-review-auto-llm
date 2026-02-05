@@ -110,13 +110,13 @@ REVIEW_MAX_TOKENS=50000
 
 ```bash
 # Preview (sem postar comentários)
-poetry run preview --repo boletoonline-php8 --pr 4967 --project "Portal de Boletos"
+poetry run preview --repo voxkey --pr 4967 --project "VoxKey"
 
 # Review completo (posta comentários)
-poetry run review --repo boletoonline-php8 --pr 4967 --project "Portal de Boletos"
+poetry run review --repo voxkey --pr 4967 --project "VoxKey"
 
 # Review sem postar (modo dry-run)
-poetry run review --repo boletoonline-php8 --pr 4967 --project "Portal de Boletos" --no-post
+poetry run review --repo voxkey --pr 4967 --project "VoxKey" --no-post
 ```
 
 ### 5. Scripts Úteis
@@ -141,54 +141,11 @@ Você pode definir regras específicas de code review para cada projeto/reposit�
 
 ```bash
 # Criar regras customizadas
-mkdir -p "review_rules/Portal de Boletos"
-nano "review_rules/Portal de Boletos/boletoonline-php8.md"
+mkdir -p "review_rules/VoxKey"
+nano "review_rules/VoxKey/voxkey.md"
 ```
 
 📖 **Documentação completa:** [`review_rules/README.md`](review_rules/README.md)
-
-
-## 🔐 Permissões
-
-Configure as permissões do Build Service:
-
-### 1. Permissões de Repositório
-
-1. Vá em **Project Settings → Repositories → Security**
-2. Encontre `[Project Name] Build Service (finnetbrasil)`
-3. Configure as permissões:
-   - ✅ `Contribute to pull requests` = **Allow**
-   - ✅ `Read` = **Allow**
-   - ✅ `Create tag` = **Not set** (opcional)
-
-### 2. Permissões de Pipeline
-
-1. Vá em **Project Settings → Pipelines → Settings**
-2. Configure:
-   - ✅ **Limit job authorization scope to current project for non-release pipelines** = OFF
-   - ✅ **Limit job authorization scope to current project for release pipelines** = OFF
-
-### 3. Expor System.AccessToken
-
-No arquivo YAML da pipeline, certifique-se de que `System.AccessToken` está disponível.
-
-### 4. Configurar Variable Group (Recomendado)
-
-1. Vá em **Pipelines → Library**
-2. Crie Variable Group: `code-review-secrets`
-3. Adicione as variáveis:
-   - `LITELLM_API_KEY` 🔒 (marque como secreta)
-   - `LITELLM_API_BASE` (ex: `https://your-litellm-instance`)
-4. Em **Pipeline security**, permita acesso à sua pipeline
-
-## 🎯 Como Funciona
-
-1. **Validação:** Verifica se PR deve ser revisada (size, draft, label)
-2. **Custo:** Estima tokens e custo antes de executar
-3. **Diff:** Busca mudanças da PR (ignora arquivos irrelevantes)
-4. **LLM:** Envia para LLM com prompt otimizado
-5. **Parse:** Estrutura resposta em issues por arquivo
-6. **Post:** Posta 1 comentário por arquivo com severidades
 
 ## 📊 Exemplo de Output
 
@@ -196,7 +153,7 @@ No arquivo YAML da pipeline, certifique-se de que `System.AccessToken` está dis
 ============================================================
 🔍 CODE REVIEW AUTOMÁTICO
 ============================================================
-Project: Portal de Boletos | Repo: boletoonline-php8 | PR: #4967
+Project: VoxKey | Repo: vox-key | PR: #4967
 Postar comentários: ❌ NÃO
 
 → Buscando informações da PR...
@@ -206,7 +163,7 @@ Postar comentários: ❌ NÃO
   • +6 -8 linhas
   • PR validada (14 linhas)
 
-📋 Regras customizadas: Portal de Boletos/boletoonline-php8
+📋 Regras customizadas: VoxKey/vox-key
 
 💰 Custo estimado: 512 tokens (~$0.0010)
 
